@@ -1,0 +1,6 @@
+{
+  "name": "بو لايت",
+  "description": "تطبيق لتحويل أسئلة الطلاب إلى بطاقات سريعة ومصنفة وحفظها محلياً",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

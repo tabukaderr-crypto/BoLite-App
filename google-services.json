@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "573599778961",
+    "project_id": "bo-lite-overlay",
+    "storage_bucket": "bo-lite-overlay.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573599778961:android:7846b276b204887d08d730",
+        "android_client_info": {
+          "package_name": "com.thaer.bolite.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtBLhG_IO5HFFpInodzKKQJ6WxyRXVmM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">بو لايت</string>
+    <string name="accessibility_service_description">Reads visible educational content locally.</string>
+</resources>
