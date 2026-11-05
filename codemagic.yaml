@@ -10,18 +10,22 @@ workflows:
       xcode: latest
       cocoapods: default
     scripts:
-      - name: Setup Java & Gradle Wrapper
+      # --- الخطوة السحرية: استخدام إضافة Gradle الرسمية ---
+      - name: Setup Java & Generate Missing Wrapper
         script: |
           export JAVA_HOME=$(/usr/libexec/java_home -v 17)
           
-          # استخدام الإجراء الرسمي لإنشاء ملفات gradlew المفقودة بأمان تام
-          curl -sL https://services.gradle.org/distributions/gradle-8.5-bin.zip -o /tmp/gradle.zip
-          unzip -q /tmp/gradle.zip -d /tmp/gradle-dist
-          /tmp/gradle-dist/bin/gradle wrapper --gradle-version 8.5
+          # نستخدم أمر gradle المتوفر مسبقاُ في بيئة Codemagic الذكية
+          # بدلاً من تنزيله يدوياً، نطلب منه توليد ملفات الـ wrapper فقط
+          echo "Generating Gradle Wrapper using system-installed Gradle..."
+          gradle wrapper --gradle-version 8.5
+          
+          # التأكد من الصلاحيات بعد الإنشاء
+          chmod +x gradlew
           
       - name: Install Dependencies & Build
         script: |
-          chmod +x gradlew
+          # الآن فقط ننفذ البناء باستخدام الملف الذي أنشأناه للتو
           ./gradlew assembleDebug --no-daemon --stacktrace
     artifacts:
       - app/build/outputs/apk/debug/*.apk
