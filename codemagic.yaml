@@ -4,42 +4,24 @@ workflows:
     instance_type: mac_mini_m1
     max_build_duration: 60
     environment:
-      groups: [] # حذفنا المجموعة الاختيارية لتجنب الأخطاء
-      vars: {} # حذفنا المتغيرات غير الضرورية حالياً
+      groups: [] 
+      vars: {} 
       flutter: stable
       xcode: latest
       cocoapods: default
     scripts:
-      - name: Fix Gradle Wrapper & Setup Java
+      - name: Setup Java & Gradle Wrapper
         script: |
           export JAVA_HOME=$(/usr/libexec/java_home -v 17)
           
-          # --- أهم جزء: إنشاء ملفات gradlew المفقودة يدوياً ---
-          echo "Creating missing Gradle Wrapper files..."
-          mkdir -p gradle/wrapper
-          
-          # تنزيل ملف gradlew التنفيذي
-          curl -sL https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradlew -o gradlew
-          chmod +x gradlew
-          
-          # تنزيل مكتبة gradle-wrapper.jar
-          curl -sL https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar -o gradle/wrapper/gradle-wrapper.jar
-          
-          # تحديث ملف الخصائص للتأكد من توافق الإصدار
-          cat > gradle/wrapper/gradle-wrapper.properties << EOL
-distributionBase=GRADLE_USER_HOME
-distributionPath=wrapper/dists
-distributionUrl=https\://services.gradle.org/distributions/gradle-8.5-bin.zip
-networkTimeout=10000
-validateDistributionUrl=true
-zipStoreBase=GRADLE_USER_HOME
-zipStorePath=wrapper/dists
-EOL
-          # --------------------------------------------------------
+          # استخدام الإجراء الرسمي لإنشاء ملفات gradlew المفقودة بأمان تام
+          curl -sL https://services.gradle.org/distributions/gradle-8.5-bin.zip -o /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /tmp/gradle-dist
+          /tmp/gradle-dist/bin/gradle wrapper --gradle-version 8.5
           
       - name: Install Dependencies & Build
         script: |
-          # الآن فقط ننفذ الأمر بعد التأكد من وجود الملفات
+          chmod +x gradlew
           ./gradlew assembleDebug --no-daemon --stacktrace
     artifacts:
       - app/build/outputs/apk/debug/*.apk
