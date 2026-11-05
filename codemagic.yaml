@@ -1,0 +1,27 @@
+workflows:
+  android-workflow:
+    name: Build Android APK
+    instance_type: mac_mini_m1
+    max_build_duration: 60
+    environment:
+      groups:
+        - group_name # اختياري، يمكن حذفه إذا لم يكن لديك مجموعات سرية
+      vars:
+        PACKAGE_NAME: "com.thaer.bolite.debug" # تأكد من تطابق هذا الاسم مع تطبيقك
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Set up Java
+        script: |
+          export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+      - name: Install Dependencies & Build
+        script: |
+          chmod +x gradlew || true
+          ./gradlew assembleDebug --no-daemon --stacktrace
+    artifacts:
+      - app/build/outputs/apk/debug/*.apk
+    publishing:
+      email:
+        recipients:
+          - thaer@example.com # ضع بريدك الإلكتروني هنا لتصلك رسالة عند النجاح
